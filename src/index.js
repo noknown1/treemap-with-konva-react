@@ -27,10 +27,11 @@ const data = [{
 }, {
     name: 'Abel', value: 4, color: 'blue',
 }, {
-    name: 'Cain', value: 1, color: 'indigo',
+    name: 'Cain', value: 1, color: 'purple',
 }];
 
-const container = {x0: 0, y0: 0, x1: window.innerWidth, y1: window.innerHeight};
+// TODO: DYNAMICALLY GET AND UPDATE THE WINDOW WIDTH AND HEIGHT TO SIZE THE TREEMAP
+const container = {x0: 0, y0: 0, x1: 1200, y1: 800};
 const output = squarify(data, container);
 
 // React components
@@ -46,6 +47,8 @@ function Square(props) {
             fill={props.color}
             stroke="black"
             strokeWidth={3}
+            onMouseOver={TreeMap.handleMouseOver}
+            onMouseLeave={TreeMap.handleMouseLeave}
         />
     );
 }
@@ -65,8 +68,22 @@ function Label(props) {
 
 class TreeMap extends React.Component {
 
+    // Handles mouse-over events for a square
+    static handleMouseOver = e => {
+        e.target.to({
+            opacity: 0.5,
+        });
+    };
+
+    // Handles mouse-leave events for a square
+    static handleMouseLeave = e => {
+        e.target.to({
+            opacity: 1.0,
+        });
+    };
+
     // Renders a rectangle on screen
-    renderSquare(x, y, width, height, color) {
+    renderSquare(x, y, width, height, color, i) {
         return (
             <Square
                 x={x}
@@ -74,6 +91,7 @@ class TreeMap extends React.Component {
                 width={width}
                 height={height}
                 color={color}
+                i={i}
             />
         );
     }
@@ -93,16 +111,20 @@ class TreeMap extends React.Component {
     render() {
         let squares = [];
 
-        output.forEach((element) => {
+        output.forEach((element, index) => {
 
             // Calculate the width and height of the square
             var w = element.x1 - element.x0;
             var h = element.y1 - element.y0;
 
-            // Render the square with given params
+            // Calculate location offsets and font size for text labels
+            var title_font_size = w / 5;
+            var title_coordinates = [element.x0 + 10, element.y0 + 10];
+
+            // Render the square and it's title text
             squares.push(
-                this.renderSquare(element.x0, element.y0, w, h, element.color),
-                this.renderLabel(element.x0 + 10, element.y0 + 10, element.name, w / 5)
+                this.renderSquare(element.x0, element.y0, w, h, element.color, index),
+                this.renderLabel(...title_coordinates, element.name, title_font_size),
             )
         });
 
