@@ -18,21 +18,28 @@ const data = [{
         {
             name: 'Enos', value: 2, color: 'yellow',
         },
+        {
+            name: 'Terg', value: 2, color: 'orange',
+        },
+        {
+            name: 'Sharron', value: 2, color: 'yellow',
+        },
     ]
 }, {
     name: 'Awan', value: 5, color: '',
-    children: [{
+    children: [
+        {
         name: 'Enoch', value: 5, color: 'green',
-    }]
+        },
+        {
+            name: 'Briggs', value: 3, color: 'green',
+        },
+    ]
 }, {
     name: 'Abel', value: 4, color: 'blue',
 }, {
     name: 'Cain', value: 1, color: 'purple',
 }];
-
-// TODO: DYNAMICALLY GET AND UPDATE THE WINDOW WIDTH AND HEIGHT TO SIZE THE TREEMAP
-const container = {x0: 0, y0: 0, x1: 1200, y1: 800};
-const output = squarify(data, container);
 
 // React components
 // = // ======================================================================================================== // = //
@@ -49,6 +56,7 @@ function Square(props) {
             strokeWidth={3}
             onMouseOver={TreeMap.handleMouseOver}
             onMouseLeave={TreeMap.handleMouseLeave}
+            onClick={TreeMap.handleMouseClick}
         />
     );
 }
@@ -68,6 +76,35 @@ function Label(props) {
 
 class TreeMap extends React.Component {
 
+    constructor(props) {
+        super(props);
+        let container = {x0: 0, y0: 0, x1: window.innerWidth, y1: window.innerHeight - 200};
+        this.state = {
+            container: container,
+            output: squarify(data, container)
+        };
+        this.updateWindowSize = this.updateWindowSize.bind(this);
+    }
+
+    componentDidMount() {
+        this.updateWindowSize();
+        window.addEventListener('resize', this.updateWindowSize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowSize);
+    }
+
+    updateWindowSize() {
+        let container = {x0: 0, y0: 0, x1: window.innerWidth, y1: window.innerHeight - 200};
+        this.setState(
+            {
+                container: container,
+                output: squarify(data, container)
+                }
+            );
+    }
+
     // Handles mouse-over events for a square
     static handleMouseOver = e => {
         e.target.to({
@@ -79,6 +116,13 @@ class TreeMap extends React.Component {
     static handleMouseLeave = e => {
         e.target.to({
             opacity: 1.0,
+        });
+    };
+
+    // Handles mouse-click events for a square
+    static handleMouseClick = e => {
+        e.target.to({
+            opacity: 0.1,
         });
     };
 
@@ -111,15 +155,15 @@ class TreeMap extends React.Component {
     render() {
         let squares = [];
 
-        output.forEach((element, index) => {
+        this.state.output.forEach((element, index) => {
 
             // Calculate the width and height of the square
-            var w = element.x1 - element.x0;
-            var h = element.y1 - element.y0;
+            let w = element.x1 - element.x0;
+            let h = element.y1 - element.y0;
 
             // Calculate location offsets and font size for text labels
-            var title_font_size = w / 5;
-            var title_coordinates = [element.x0 + 10, element.y0 + 10];
+            let title_font_size = w / 5;
+            let title_coordinates = [element.x0 + 10, element.y0 + 10];
 
             // Render the square and it's title text
             squares.push(
