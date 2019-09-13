@@ -23,7 +23,7 @@ export function Togglebutton(props) {
                 // draggable={true} : when enabled allows for draggable buttons
             />
             <Text
-                x={props.x - 9}
+                x={props.x - 8}
                 y={props.y - 13}
                 text={props.text}
                 fontSize={props.fontsize}

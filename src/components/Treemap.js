@@ -2,7 +2,7 @@ import React from "react";
 import {getData, A, B, C, D, E, F, G} from "../data";
 import {Cell} from "../components/Cell";
 import {Togglebutton} from "../components/Togglebutton";
-import {Layer, Stage} from "react-konva";
+import {Layer, Stage, Rect, Text, Line} from "react-konva";
 import squarify from 'squarify';
 
 
@@ -205,8 +205,8 @@ export class Treemap extends React.Component {
 
         let cells = [];
         let toggleButtons = [];
-        let xPlacement = 120;
-        const yPlacement = window.innerHeight - 100;
+        let xPlacement = 80;
+        const yPlacement = window.innerHeight - 80;
 
         // render treemap cells
         this.state.map.forEach((element, index) => {
@@ -227,17 +227,63 @@ export class Treemap extends React.Component {
         // render toggle buttons
         this.state.categories.forEach((element) => {
             toggleButtons.push(
-                this.renderToggleButton(xPlacement, yPlacement, 40, element.color, element.category, 30),
+                this.renderToggleButton(xPlacement, yPlacement, 28, element.color, element.category, 30),
             );
 
             // increment distance that buttons will be spaced apart, in this case 120 pixels
-            xPlacement += 120;
+            xPlacement += 75;
         });
 
         return (
             <Stage width={window.innerWidth} height={window.innerHeight}>
                 <Layer>
                     {cells}
+                    <Rect
+                        x={20}
+                        y={window.innerHeight - 180}
+                        width={window.innerWidth - 40}
+                        height={160}
+                        fill={"#e5e5e5"}
+                        listening={false}
+                        stroke={"#313131"}
+                        strokeWidth={3}
+                        cornerRadius={25}
+                    />
+                    <Text
+                        x={40}
+                        y={window.innerHeight - 160}
+                        text={"Categories:"}
+                        fontSize={32}
+                        fontFamily={'Calibri'}
+                        fill={'black'}
+                        listening={false}
+                    />
+                    <Line
+                        points={[590, window.innerHeight - 180, 590, window.innerHeight - 20]}
+                        stroke={"#313131"}
+                        strokeWidth={3}
+                        listening={false}
+                    />
+                    <Text
+                        x={610}
+                        y={window.innerHeight - 160}
+                        text={"Info:"}
+                        fontSize={32}
+                        fontFamily={'Calibri'}
+                        fill={'black'}
+                        listening={false}
+                    />
+                    <Rect
+                        x={610}
+                        y={window.innerHeight - 120}
+                        width={window.innerWidth - 650}
+                        height={80}
+                        fill={"#fbfbfb"}
+                        listening={false}
+                        stroke={"#313131"}
+                        strokeWidth={3}
+                        cornerRadius={3}
+                    />
                     {toggleButtons}
                 </Layer>
             </Stage>
