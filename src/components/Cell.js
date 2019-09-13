@@ -2,7 +2,7 @@ import React from "react";
 import { Rect, Text, Group} from "react-konva";
 import { Treemap } from "../components/Treemap";
 
-// a single square of the treemap, created from a rectangle and text item from konva-react
+// a single square of the treemap
 export function Cell(props) {
     return(
         <Group>
