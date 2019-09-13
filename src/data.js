@@ -1,7 +1,7 @@
 
 // category colors
-// in this example, these colors also act as the IDs for each category, as they are the keys that will need to be
-// matched to filter out data
+// in this example, these colors also act as the IDs for each category, as they are the keys that will be used to
+// filter out data
 export const A = "#2cdb11";
 export const B = "#00a6ed";
 export const C = "#ffbf00";
@@ -11,7 +11,7 @@ export const F = "#1be7ff";
 export const G = "#f6511d";
 
 // the data you want to render onto the treemap should be returned from this function
-// the formatting of the data is very important... see the 'Usage' section for the squarify package:
+// the formatting of the data is important, see the 'Usage' section for the squarify package:
 // https://www.npmjs.com/package/squarify
 export function getData() {
 
