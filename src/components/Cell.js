@@ -1,6 +1,5 @@
 import React from "react";
 import { Rect, Text, Group} from "react-konva";
-import { Treemap } from "../components/Treemap";
 
 // a single square of the treemap
 export function Cell(props) {
@@ -14,9 +13,9 @@ export function Cell(props) {
                 fill={props.color}
                 stroke="black"
                 strokeWidth={3}
-                onMouseOver={Treemap.handleCellMouseOver}
-                onMouseLeave={Treemap.handleCellMouseLeave}
-                onClick={Treemap.handleCellMouseClick}
+                onMouseOver={props.onMouseOver}
+                onMouseLeave={props.onMouseLeave}
+                onClick={props.onClick}
             />
             <Text
                 x={props.x + 10}

@@ -108,6 +108,9 @@ export class Treemap extends React.Component {
                 color={squarecolor}
                 text={text}
                 size={size}
+                onMouseOver={this.handleCellMouseOver}
+                onMouseLeave={this.handleCellMouseLeave}
+                onClick={this.handleCellMouseClick}
                 i={i}
             />
         );
@@ -128,6 +131,31 @@ export class Treemap extends React.Component {
                 onClick={this.handleTogglebuttonMouseClick}
             />
         );
+    };
+
+    // the following functions handle mouse over, leave, and click functionality for treemap cells/squares
+    handleCellMouseOver(e) {
+        // graphics
+        e.target.to({
+            opacity: 0.4,
+        });
+    };
+
+    handleCellMouseLeave(e) {
+        // graphics
+        e.target.to({
+            opacity: 1.0,
+        });
+    };
+
+    handleCellMouseClick(e) {
+        // graphics
+        e.target.to({
+            opacity: 0.1,
+        });
+
+        // function example, on click show alert
+        alert(e.target.attrs.fill);
     };
 
     // the following functions handle mouse over, leave, and click functionality for the category toggle buttons
